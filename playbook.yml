@@ -1,5 +1,8 @@
 ---
 - hosts: all
-  gather_facts: false
+  become: true
   roles: [geerlingguy.pip]
-  tasks:
+  vars:
+    pip_install_packages:
+      - name: docker
+        state: present
