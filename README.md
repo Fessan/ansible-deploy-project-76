@@ -4,3 +4,6 @@
 
 `make ping` - проверить доступность серверов
 
+`make install_role` - установить роли
+
+`make install_pip` - установить pip and docker
