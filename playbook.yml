@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    # Создаем общую сеть
+  # Контейнеры добавленные в эту сеть, могут обращаться друг к другу по имени контейнера,
+  # который становится dns именем
+    - community.docker.docker_network:
+        name: devops-example
+    - community.docker.docker_container:
+        name: app  # имя используется как домен
+        image: navyfessan/devops-example-app:v2
+        restart_policy: always
+        state: started
+        networks:  # Добавляем контейнер в сеть
+          - name: devops-example
+        ports:  # Больше не нужно выставлять наружу, потому что доступ идет через Caddy
+        # - 3000:3000
+        env:
+          NODE_ENV: production
+    - community.docker.docker_container:
+        name: caddy  # имя используется как домен
+        image: navyfessan/devops-example-caddy
+        restart_policy: always
+        state: started
+        networks:  # Добавляем контейнер в сеть
+          - name: devops-example
+        ports: [80:80, 443:443]
