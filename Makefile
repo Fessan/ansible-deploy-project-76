@@ -14,7 +14,7 @@ edit-vault:
 	ansible-vault edit group_vars/all/vault.yml
 
 deploy:
-	ansible-playbook playbook.yml -i inventory.ini -t deploy --vault-password-file .pass
+	ansible-playbook playbook.yml -i inventory.ini -t deploy --vault-password-file .pass -vv
 
 
 
