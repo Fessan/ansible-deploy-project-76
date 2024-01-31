@@ -1,21 +1,23 @@
 ---
 - hosts: all
   become: true
-  roles: [geerlingguy.pip]
+  roles:
+    - role: geerlingguy.pip
   vars:
     pip_install_packages:
       - name: docker
         state: present
-      - name: cp env
-        template:
-          src: ./template/.env.redmine.j2
-        dest: '{{ ansible_env.home }}/.env.redmine'
+  tasks:
+    - name: cp env
+      template:
+        src: ./template/.env.redmine.j2
+        dest: '{{ ansible_env.HOME }}/.env.redmine'
         mode: '660'
-        tags: [deploy]
-      - name: up redmine
-        community.docker.docker_container:
-          name: redmine
-          image: redmine
-          ports: [3000:3000]
-          env_file: '{{ ansible_env.home }}/.env.redmine'
-        tags: [deploy]
+      tags: deploy
+    - name: up redmine
+      community.docker.docker_container:
+        name: redmine
+        image: redmine
+        ports: [3000:3000]
+        env_file: '{{ ansible_env.HOME }}/.env.redmine'
+      tags: deploy
