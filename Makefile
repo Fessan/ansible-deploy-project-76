@@ -14,7 +14,7 @@ edit-vault:
 	ansible-vault edit group_vars/all/vault.yml
 
 deploy:
-		ansible-playbook redmine.yml -i inventory.ini -t deploy --vault-password-file .pass -vv
+		ansible-playbook playbook.yml -i inventory.ini -t deploy --vault-password-file .pass -vv
 
 setup:
 	ansible-playbook setup.yml -i inventory.ini --vault-password-file .pass -v
